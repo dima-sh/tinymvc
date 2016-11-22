@@ -19,7 +19,7 @@ class Route
 		// получаем имя контроллера
 		if ( !empty($routes[1]) )
 		{	
-			$controller_name = $routes[1];
+			$controller_name = ucfirst($routes[1]);
 		}
 		
 		// получаем имя экшена
@@ -29,9 +29,8 @@ class Route
 		}
 
 		// добавляем префиксы
-		$model_name = 'Model_'.$controller_name;
-		$controller_name = 'Controller_'.$controller_name;
-		$action_name = 'action_'.$action_name;
+		$model_name = $controller_name;
+		$controller_name = $controller_name . 'Controller';
 
 		/*
 		echo "Model: $model_name <br>";
@@ -41,19 +40,19 @@ class Route
 
 		// подцепляем файл с классом модели (файла модели может и не быть)
 
-		$model_file = strtolower($model_name).'.php';
-		$model_path = "application/models/".$model_file;
+		$model_file = $model_name.'.php';
+		$model_path = "../application/models/".$model_file;
 		if(file_exists($model_path))
 		{
-			include "application/models/".$model_file;
+			include "../application/models/".$model_file;
 		}
 
 		// подцепляем файл с классом контроллера
-		$controller_file = strtolower($controller_name).'.php';
-		$controller_path = "application/controllers/".$controller_file;
+		$controller_file = $controller_name.'.php';
+		$controller_path = "../application/controllers/".$controller_file;
 		if(file_exists($controller_path))
 		{
-			include "application/controllers/".$controller_file;
+			include "../application/controllers/".$controller_file;
 		}
 		else
 		{
@@ -86,7 +85,7 @@ class Route
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
 		header("Status: 404 Not Found");
-		header('Location:'.$host.'404');
+		header('Location:'.$host.'error404');
     }
     
 }
